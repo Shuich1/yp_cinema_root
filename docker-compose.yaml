@@ -42,6 +42,17 @@ services:
     extends:
       file: yp_cinema_auth/docker-compose.yaml
       service: auth-postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${AUTH_POSTGRES_USER} -d ${AUTH_POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_HOST=${AUTH_POSTGRES_HOST}
+      - POSTGRES_PORT=${AUTH_POSTGRES_PORT}
+      - POSTGRES_USER=${AUTH_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${AUTH_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${AUTH_POSTGRES_DB}
 
   auth-redis:
     extends:
@@ -52,6 +63,8 @@ services:
     extends:
       file: yp_cinema_auth/docker-compose.yaml
       service: auth-flask
+    ports:
+      - "5000:5000"
 
   nginx:
     image: nginx:1.23.2
