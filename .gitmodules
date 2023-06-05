@@ -1,0 +1,9 @@
+[submodule "yp_cinema_admin"]
+	path = yp_cinema_admin
+	url = git@github.com:Shuich1/yp_cinema_admin.git
+[submodule "yp_cinema_content"]
+	path = yp_cinema_content
+	url = git@github.com:Shuich1/yp_cinema_content.git
+[submodule "yp_cinema_auth"]
+	path = yp_cinema_auth
+	url = git@github.com:Shuich1/yp_cinema_auth.git

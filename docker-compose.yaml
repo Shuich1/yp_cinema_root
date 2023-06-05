@@ -1,0 +1,94 @@
+version: '3.9'
+services:
+  admin-postgres:
+    extends:
+      file: yp_cinema_admin/docker-compose.yaml
+      service: admin-postgres
+  
+  admin-django:
+    extends:
+      file: yp_cinema_admin/docker-compose.yaml
+      service: admin-django
+
+  admin-sqlite-to-pg:
+    extends:
+      file: yp_cinema_admin/docker-compose.yaml
+      service: admin-sqlite-to-pg
+
+  admin-elastic:
+    extends:
+      file: yp_cinema_admin/docker-compose.yaml
+      service: admin-elastic
+
+  admin-pg-to-elastic:
+    extends:
+      file: yp_cinema_admin/docker-compose.yaml
+      service: admin-pg-to-elastic
+
+  content-delivery-redis:
+    extends:
+      file: yp_cinema_content/docker-compose.yaml
+      service: content-delivery-redis
+
+  content-delivery-fastapi:
+    extends:
+      file: yp_cinema_content/docker-compose.yaml
+      service: content-delivery-fastapi
+    depends_on:
+      admin-elastic:
+        condition: service_healthy
+  
+  auth-postgres:
+    extends:
+      file: yp_cinema_auth/docker-compose.yaml
+      service: auth-postgres
+
+  auth-redis:
+    extends:
+      file: yp_cinema_auth/docker-compose.yaml
+      service: auth-redis
+
+  auth-flask:
+    extends:
+      file: yp_cinema_auth/docker-compose.yaml
+      service: auth-flask
+
+  nginx:
+    image: nginx:1.23.2
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/config:/etc/nginx/conf.d:ro
+      - ./yp_cinema_admin/admin/static:/data/static:ro
+    depends_on:
+      admin-django:
+        condition: service_healthy
+      content-delivery-fastapi:
+        condition: service_healthy
+      auth-flask:
+        condition: service_healthy
+      jaeger:
+        condition: service_started
+    ports:
+      - "80:80"
+
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:1.42
+    environment:
+      - QUERY_BASE_PATH=/jaeger
+      - SPAN_STORAGE_TYPE=badger
+      - BADGER_EPHEMERAL=false
+      - BADGER_DIRECTORY_VALUE=/badger/data
+      - BADGER_DIRECTORY_KEY=/badger/key
+    volumes:
+      - jaeger_data:/badger
+    expose:
+      - "16686"
+      - "6831/udp"
+
+volumes:
+  admin-db:
+  static:
+  jaeger_data:
+  auth-db:
+  auth_redis_data:
