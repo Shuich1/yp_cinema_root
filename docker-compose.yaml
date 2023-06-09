@@ -66,6 +66,53 @@ services:
     ports:
       - "5000:5000"
 
+  ugc-fastapi:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-fastapi
+    ports:
+      - "18000:8000"
+
+  ugc-etl:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-etl
+
+  ugc-kafka-zookeeper:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-kafka-zookeeper
+
+  ugc-kafka:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-kafka
+
+  ugc-clickhouse-zookeeper:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-clickhouse-zookeeper
+
+  ugc-clickhouse-node1:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-clickhouse-node1
+
+  ugc-clickhouse-node2:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-clickhouse-node2
+
+  ugc-clickhouse-node3:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-clickhouse-node3
+
+  ugc-clickhouse-node4:
+    extends:
+      file: yp_cinema_ugc/docker-compose.yml
+      service: ugc-clickhouse-node4
+
   nginx:
     image: nginx:1.23.2
     volumes:

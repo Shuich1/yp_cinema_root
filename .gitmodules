@@ -7,3 +7,6 @@
 [submodule "yp_cinema_auth"]
 	path = yp_cinema_auth
 	url = git@github.com:Shuich1/yp_cinema_auth.git
+[submodule "yp_cinema_ugc"]
+	path = yp_cinema_ugc
+	url = git@github.com:Shuich1/yp_cinema_ugc.git
