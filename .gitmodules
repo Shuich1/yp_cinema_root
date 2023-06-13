@@ -1,12 +1,16 @@
 [submodule "yp_cinema_admin"]
 	path = yp_cinema_admin
 	url = git@github.com:Shuich1/yp_cinema_admin.git
+	branch = main
 [submodule "yp_cinema_content"]
 	path = yp_cinema_content
 	url = git@github.com:Shuich1/yp_cinema_content.git
+	branch = main
 [submodule "yp_cinema_auth"]
 	path = yp_cinema_auth
 	url = git@github.com:Shuich1/yp_cinema_auth.git
+	branch = main
 [submodule "yp_cinema_ugc"]
 	path = yp_cinema_ugc
 	url = git@github.com:Shuich1/yp_cinema_ugc.git
+	branch = main
